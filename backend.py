@@ -31,7 +31,7 @@ chrome_options.add_argument("--headless")
 otp_queue = queue.Queue()
 
 def create_driver(proxy=None):
-    service = Service(r'C:\Users\BALERE IBAD\OneDrive\Desktop\chromedriver-win64\chromedriver.exe')  # Update with your chromedriver path
+    service = Service('/usr/local/bin/chromedrive')  # Update with your chromedriver path
     if proxy:
         chrome_options.add_argument(f'--proxy-server={proxy}')
     driver = webdriver.Chrome(service=service, options=chrome_options)
