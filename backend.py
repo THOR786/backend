@@ -25,7 +25,7 @@ chrome_options.add_argument("--no-sandbox")
 chrome_options.add_argument("--disable-dev-shm-usage")
 chrome_options.add_argument("--disable-blink-features=AutomationControlled")
 # Uncomment the line below to run headlessly (without a UI)
-#chrome_options.add_argument("--headless")
+chrome_options.add_argument("--headless")
 
 # Thread-safe queue for OTP requests
 otp_queue = queue.Queue()
