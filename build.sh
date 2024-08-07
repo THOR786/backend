@@ -1,32 +1,47 @@
-#!/bin/bash
+#!/usr/bin/env bash
+# exit on error
+set -o errexit
 
-# Update and install dependencies
-apt-get update && apt-get install -y \
-    wget \
-    unzip \
-    libnss3 \
-    libatk-bridge2.0-0 \
-    libatk1.0-0 \
-    libcups2 \
-    libx11-xcb1 \
-    libxkbcommon0 \
-    libxcomposite1 \
-    libxdamage1 \
-    libxrandr2 \
-    libxss1 \
-    libxtst6 \
-    libxshmfence1 \
-    xdg-utils
+STORAGE_DIR=/opt/render/project/.render
 
 # Install Chrome
-wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
-dpkg -i google-chrome-stable_current_amd64.deb
-apt-get -fy install
+if [[ ! -d $STORAGE_DIR/chrome ]]; then
+  echo "...Downloading Chrome"
+  mkdir -p $STORAGE_DIR/chrome
+  cd $STORAGE_DIR/chrome
+  wget -P ./ https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+
+  # Extract the .deb package without dpkg
+  ar x google-chrome-stable_current_amd64.deb
+  tar -xvf data.tar.xz -C $STORAGE_DIR/chrome
+
+  # Clean up
+  rm google-chrome-stable_current_amd64.deb control.tar.gz data.tar.xz debian-binary
+
+  cd $HOME/project/src # Make sure we return to where we were
+else
+  echo "...Using Chrome from cache"
+fi
 
 # Install ChromeDriver
-wget https://chromedriver.storage.googleapis.com/115.0.5790.170/chromedriver_linux64.zip
-unzip chromedriver_linux64.zip
-mv chromedriver /usr/local/bin/chromedriver
+if [[ ! -d $STORAGE_DIR/chromedriver ]]; then
+  echo "...Downloading ChromeDriver"
+  mkdir -p $STORAGE_DIR/chromedriver
+  cd $STORAGE_DIR/chromedriver
 
-# Clean up
-rm google-chrome-stable_current_amd64.deb chromedriver_linux64.zip
+  # Updated URL to download the latest ChromeDriver version
+  wget https://storage.googleapis.com/chrome-for-testing-public/127.0.6533.99/linux64/chromedriver-linux64.zip
+
+  unzip chromedriver-linux64.zip
+  mv chromedriver-linux64/chromedriver $STORAGE_DIR/chromedriver/chromedriver
+  rm -r chromedriver-linux64 chromedriver-linux64.zip
+  cd $HOME/project/src # Make sure we return to where we were
+else
+  echo "...Using ChromeDriver from cache"
+fi
+
+# Be sure to add Chrome and ChromeDriver location to the PATH as part of your Start Command
+# export PATH="${PATH}:/opt/render/project/.render/chrome/opt/google/chrome"
+# export PATH="${PATH}:/opt/render/project/.render/chromedriver"
+
+# Add your own build commands...
