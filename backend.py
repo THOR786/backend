@@ -231,6 +231,7 @@ def send_otp(mobile_number, country, target_website, proxy, results, connected_p
                 otp_input_field = WebDriverWait(driver, 30).until(
                     EC.presence_of_element_located((By.CSS_SELECTOR, "#cvf-input-code"))
                 )
+                driver.save_screenshot('amazon_otp_input_field.png')
                 if otp_input_field:
                     results.append({"number": mobile_number, "status": "success"})
                 else:
