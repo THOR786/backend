@@ -26,7 +26,7 @@ chrome_options.add_argument("--disable-dev-shm-usage")
 chrome_options.add_argument("--disable-blink-features=AutomationControlled")
 chrome_options.binary_location = "/opt/render/project/.render/chrome/opt/google/chrome/chrome"
 # Uncomment the line below to run headlessly (without a UI)
-chrome_options.add_argument("--headless")
+#chrome_options.add_argument("--headless")
 # Thread-safe queue for OTP requests
 otp_queue = queue.Queue()
 
