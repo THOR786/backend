@@ -24,14 +24,14 @@ chrome_options = Options()
 chrome_options.add_argument("--no-sandbox")
 chrome_options.add_argument("--disable-dev-shm-usage")
 chrome_options.add_argument("--disable-blink-features=AutomationControlled")
+chrome_options.binary_location = "/opt/render/project/.render/chrome/opt/google/chrome/chrome"
 # Uncomment the line below to run headlessly (without a UI)
 chrome_options.add_argument("--headless")
-
 # Thread-safe queue for OTP requests
 otp_queue = queue.Queue()
 
 def create_driver(proxy=None):
-    service = Service('/opt/render/project/.render/chromedriver/chromedriver')  # Update with your chromedriver path
+    service = Service("/opt/render/project/.render/chromedriver/chromedriver") # Update with your chromedriver path
     if proxy:
         chrome_options.add_argument(f'--proxy-server={proxy}')
     driver = webdriver.Chrome(service=service, options=chrome_options)
