@@ -26,7 +26,7 @@ chrome_options.add_argument("--disable-dev-shm-usage")
 chrome_options.add_argument("--disable-blink-features=AutomationControlled")
 chrome_options.binary_location = "/opt/render/project/.render/chrome/opt/google/chrome/chrome"
 # Uncomment the line below to run headlessly (without a UI)
-#chrome_options.add_argument("--headless")
+chrome_options.add_argument("--headless")
 # Thread-safe queue for OTP requests
 otp_queue = queue.Queue()
 
@@ -222,7 +222,7 @@ def send_otp(mobile_number, country, target_website, proxy, results, connected_p
             time.sleep(2)  # Wait for the action to complete
 
             # Click the continue button again if required
-            continue_button = driver.find_element(By.CSS_SELECTOR, "#continue")
+            continue_button = driver.find_element(By.CSS_SELECTOR, "#auth-login-via-otp-btn")
             continue_button.click()
             time.sleep(5)  # Wait for the response
 
